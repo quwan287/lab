@@ -1,0 +1,68 @@
+package fpl.quangnm.lab1;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.DatabaseErrorHandler;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class DpHelper extends SQLiteOpenHelper {
+    public DpHelper(Context context) {
+        super(context, "id", null, 1);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        String CREATE_TABLE= "CREATE TABLE Model (\n" +
+                " id integer PRIMARY KEY,\n" +
+                " title text,\n" +
+                " descr text\n" +
+                ");";
+        db.execSQL(CREATE_TABLE);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+        db.execSQL("DROP TABLE IF EXISTS Model");
+    }
+
+    public void them(Model d){
+        SQLiteDatabase db = this.getWritableDatabase();  // ghi du lieu database
+        ContentValues values = new ContentValues();
+
+        // chuan bi du lieu insert
+        values.put("title", d.getTittle());
+        values.put("descr", d.getDescr());
+
+        // thu thi insert
+        db.insert("Model", null, values);
+
+        // dong ket noi
+        db.close();
+    }
+
+    public List<Model> getAllDate(){
+    List<Model> list = new ArrayList<>();
+    String querry = "SELECT * FROM Model";
+    SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(querry,null);
+        if (cursor.moveToFirst()){   // di chuyen con tro ve ban ghi dau tien
+            do {
+                Model model = new Model();
+                model.setTittle(cursor.getString(1));
+                model.setDescr(cursor.getString(2));
+                list.add(model);    // dua doi tuong vao list
+            }while (cursor.moveToNext());  // di chuyen den ban ghi tiep theo
+        }
+        cursor.close();
+        db.close();
+        return list;
+    }
+}
