@@ -1,0 +1,47 @@
+package fpl.quangnm.lab1;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity {
+    private modelAdapter adapter;
+    private List<Model> list;
+    private EditText lab1Tittle,lab1TxtDes;
+    private Button btnAdd;
+    private ListView listView1;
+    DpHelper helper;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        listView1 = findViewById(R.id.listView1);
+        lab1Tittle = findViewById(R.id.lab1Tittle);
+        lab1TxtDes = findViewById(R.id.lab1TxtDes);
+        btnAdd = findViewById(R.id.btnAdd);
+        helper = new DpHelper(this);
+        list = helper.getAllDate();
+        adapter = new modelAdapter(this, list);
+        listView1 .setAdapter(adapter);
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String title = lab1Tittle.getText().toString();
+                String des = lab1TxtDes.getText().toString();
+                if (!title.isEmpty() && !des.isEmpty()){
+                    Model model = new Model(title,des);
+                    helper.them(model);
+                    adapter.notifyDataSetChanged();
+                    lab1Tittle.setText("");
+                    lab1TxtDes.setText("");
+                }
+            }
+        });
+    }
+}
