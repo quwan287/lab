@@ -1,0 +1,40 @@
+package fpl.quangnm.lab1;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import java.util.List;
+
+public class modelAdapter extends ArrayAdapter<Model> {
+    public modelAdapter(@NonNull Context context, @NonNull List<Model> models) {
+        super(context, 0, models);
+    }
+
+
+    @Override
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+       if (convertView == null) {  // chua co view
+           // tao view
+           convertView = LayoutInflater.from(getContext())
+                   .inflate(R.layout.layour_itemlab1, parent, false);
+       }
+       Model model = getItem(position); // lay du lieu 1 item
+
+        // anh xa tung thanh phan
+        TextView tvTitle = convertView.findViewById(R.id.ttx_a);
+        TextView tvDers = convertView.findViewById(R.id.txt_a);
+
+        // dua du lieu vao tung thanh phan
+        tvTitle.setText(model.getTittle());
+        tvDers.setText((model.getDescr()));
+
+        return convertView;
+    }
+}
