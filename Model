@@ -1,0 +1,30 @@
+package fpl.quangnm.lab1;
+
+public class Model {
+    private String tittle;
+    private String descr;
+
+    public Model(String tittle, String descr) {
+        this.tittle = tittle;
+        this.descr = descr;
+    }
+
+    public Model() {
+    }
+
+    public String getTittle() {
+        return tittle;
+    }
+
+    public void setTittle(String tittle) {
+        this.tittle = tittle;
+    }
+
+    public String getDescr() {
+        return descr;
+    }
+
+    public void setDescr(String descr) {
+        this.descr = descr;
+    }
+}
